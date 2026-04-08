@@ -202,7 +202,7 @@ class _TitleSlideState extends State<TitleSlide>
   Widget _fade(Animation<double> a, {double dy = 20, required Widget child}) {
     return AnimatedBuilder(
       animation: a,
-      builder: (_, __) => Opacity(
+      builder: (_, _) => Opacity(
         opacity: a.value.clamp(0.0, 1.0),
         child: Transform.translate(
           offset: Offset(0, dy * (1 - a.value)),
@@ -338,7 +338,7 @@ class _SectionTitleSlideState extends State<SectionTitleSlide>
   Widget _fade(Animation<double> a, {double dy = 20, required Widget child}) {
     return AnimatedBuilder(
       animation: a,
-      builder: (_, __) => Opacity(
+      builder: (_, _) => Opacity(
         opacity: a.value.clamp(0.0, 1.0),
         child: Transform.translate(
           offset: Offset(0, dy * (1 - a.value)),
@@ -524,7 +524,7 @@ class _ContentSlideState extends State<ContentSlide>
   Widget _fade(Animation<double> a, {double dy = 20, required Widget child}) {
     return AnimatedBuilder(
       animation: a,
-      builder: (_, __) => Opacity(
+      builder: (_, _) => Opacity(
         opacity: a.value.clamp(0.0, 1.0),
         child: Transform.translate(
           offset: Offset(0, dy * (1 - a.value)),
@@ -741,7 +741,7 @@ class _CodeSlideState extends State<CodeSlide>
   Widget _fade(Animation<double> a, {double dy = 20, required Widget child}) {
     return AnimatedBuilder(
       animation: a,
-      builder: (_, __) => Opacity(
+      builder: (_, _) => Opacity(
         opacity: a.value.clamp(0.0, 1.0),
         child: Transform.translate(
           offset: Offset(0, dy * (1 - a.value)),
@@ -956,7 +956,7 @@ class _CardsSlideState extends State<CardsSlide>
   Widget _fade(Animation<double> a, {double dy = 20, required Widget child}) {
     return AnimatedBuilder(
       animation: a,
-      builder: (_, __) => Opacity(
+      builder: (_, _) => Opacity(
         opacity: a.value.clamp(0.0, 1.0),
         child: Transform.translate(
           offset: Offset(0, dy * (1 - a.value)),
@@ -1122,7 +1122,7 @@ class _ComparisonSlideState extends State<ComparisonSlide>
   Widget _fade(Animation<double> a, {double dy = 20, required Widget child}) {
     return AnimatedBuilder(
       animation: a,
-      builder: (_, __) => Opacity(
+      builder: (_, _) => Opacity(
         opacity: a.value.clamp(0.0, 1.0),
         child: Transform.translate(
           offset: Offset(0, dy * (1 - a.value)),
