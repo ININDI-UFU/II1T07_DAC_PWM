@@ -4,71 +4,83 @@ import '../widgets/slide_template.dart';
 Widget buildSlide(int index) {
   switch (index) {
     case 0:
-      return const TitleSlide(
-        key: ValueKey(0),
-        title: 'DAC & PWM na ESP32',
-        subtitle:
-            'Geração de Sinais Analógicos\n\nConversor Digital-Analógico, PWM com LEDC e filtros RC\nAula 13 • Sistemas Embarcados',
-        chip: 'SINAIS ANALÓGICOS',
-        accentColor: Color(0xFF3B82F6),
+      return _withMediaOverlay(
+        child: const TitleSlide(
+          key: ValueKey(0),
+          title: 'DAC & PWM na ESP32',
+          subtitle:
+              'Geração de Sinais Analógicos\n\nConversor Digital-Analógico, PWM com LEDC e filtros RC\nAula 13 • Sistemas Embarcados',
+          chip: 'SINAIS ANALÓGICOS',
+          accentColor: Color(0xFF3B82F6),
+        ),
+        assetPath: 'assets/media/image1.gif',
+        alignment: Alignment.centerRight,
+        widthFactor: 0.34,
+        opacity: 0.95,
       );
     case 1:
-      return CardsSlide(
-        key: const ValueKey(1),
-        title: 'Agenda',
-        subtitle: 'Conteúdo da aula',
-        accentColor: const Color(0xFF3B82F6),
-        cards: const [
-          InfoCardData(
-            title: '01. Fundamentos',
-            description: 'Sinais digitais vs analógicos na ESP32',
-            icon: Icons.graphic_eq_rounded,
-            color: Color(0xFF3B82F6),
-          ),
-          InfoCardData(
-            title: '02. DAC Nativo',
-            description: 'GPIO25/GPIO26 — 8 bits, conversão direta',
-            icon: Icons.tune_rounded,
-            color: Color(0xFF8B5CF6),
-          ),
-          InfoCardData(
-            title: '03. PWM (LEDC)',
-            description: 'LED Control — 16 canais, até 40 MHz',
-            icon: Icons.waves_rounded,
-            color: Color(0xFFF59E0B),
-          ),
-          InfoCardData(
-            title: '04. PWM + Filtro RC',
-            description: 'Geração de sinal analógico com mais resolução',
-            icon: Icons.filter_alt_rounded,
-            color: Color(0xFF00D4AA),
-          ),
-          InfoCardData(
-            title: '05. PWM Dual (16-bit)',
-            description: 'Técnica para 16 bits de resolução',
-            icon: Icons.precision_manufacturing_rounded,
-            color: Color(0xFF3B82F6),
-          ),
-          InfoCardData(
-            title: '06. Comparação',
-            description: 'DAC vs PWM vs PWM+RC vs DAC externo',
-            icon: Icons.compare_rounded,
-            color: Color(0xFFFF6B6B),
-          ),
-          InfoCardData(
-            title: '07. Código',
-            description: 'Exemplos práticos com PlatformIO',
-            icon: Icons.code_rounded,
-            color: Color(0xFF8B5CF6),
-          ),
-          InfoCardData(
-            title: '08. Aplicações',
-            description: 'Geração de formas de onda e controle',
-            icon: Icons.devices_rounded,
-            color: Color(0xFFF59E0B),
-          ),
-        ],
-        crossAxisCount: 4,
+      return _withMediaOverlay(
+        child: CardsSlide(
+          key: const ValueKey(1),
+          title: 'Agenda',
+          subtitle: 'Conteúdo da aula',
+          accentColor: const Color(0xFF3B82F6),
+          cards: const [
+            InfoCardData(
+              title: '01. Fundamentos',
+              description: 'Sinais digitais vs analógicos na ESP32',
+              icon: Icons.graphic_eq_rounded,
+              color: Color(0xFF3B82F6),
+            ),
+            InfoCardData(
+              title: '02. DAC Nativo',
+              description: 'GPIO25/GPIO26 — 8 bits, conversão direta',
+              icon: Icons.tune_rounded,
+              color: Color(0xFF8B5CF6),
+            ),
+            InfoCardData(
+              title: '03. PWM (LEDC)',
+              description: 'LED Control — 16 canais, até 40 MHz',
+              icon: Icons.waves_rounded,
+              color: Color(0xFFF59E0B),
+            ),
+            InfoCardData(
+              title: '04. PWM + Filtro RC',
+              description: 'Geração de sinal analógico com mais resolução',
+              icon: Icons.filter_alt_rounded,
+              color: Color(0xFF00D4AA),
+            ),
+            InfoCardData(
+              title: '05. PWM Dual (16-bit)',
+              description: 'Técnica para 16 bits de resolução',
+              icon: Icons.precision_manufacturing_rounded,
+              color: Color(0xFF3B82F6),
+            ),
+            InfoCardData(
+              title: '06. Comparação',
+              description: 'DAC vs PWM vs PWM+RC vs DAC externo',
+              icon: Icons.compare_rounded,
+              color: Color(0xFFFF6B6B),
+            ),
+            InfoCardData(
+              title: '07. Código',
+              description: 'Exemplos práticos com PlatformIO',
+              icon: Icons.code_rounded,
+              color: Color(0xFF8B5CF6),
+            ),
+            InfoCardData(
+              title: '08. Aplicações',
+              description: 'Geração de formas de onda e controle',
+              icon: Icons.devices_rounded,
+              color: Color(0xFFF59E0B),
+            ),
+          ],
+          crossAxisCount: 4,
+        ),
+        assetPath: 'assets/media/image2.gif',
+        alignment: Alignment.bottomRight,
+        widthFactor: 0.22,
+        opacity: 0.9,
       );
     case 2:
       return ContentSlide(
@@ -109,16 +121,25 @@ Widget buildSlide(int index) {
             icon: Icons.tune_rounded,
           ),
         ],
+        sideWidget: const _SlideMediaPanel(
+          assetPath: 'assets/media/image3.png',
+        ),
       );
     case 3:
-      return const SectionTitleSlide(
-        key: ValueKey(3),
-        sectionNumber: '01',
-        title: 'DAC Nativo da ESP32',
-        subtitle:
-            'Conversão direta Digital → Analógico\n8 bits • 2 canais • GPIO25 / GPIO26',
-        accentColor: Color(0xFF8B5CF6),
-        icon: Icons.tune_rounded,
+      return _withMediaOverlay(
+        child: const SectionTitleSlide(
+          key: ValueKey(3),
+          sectionNumber: '01',
+          title: 'DAC Nativo da ESP32',
+          subtitle:
+              'Conversão direta Digital → Analógico\n8 bits • 2 canais • GPIO25 / GPIO26',
+          accentColor: Color(0xFF8B5CF6),
+          icon: Icons.tune_rounded,
+        ),
+        assetPath: 'assets/media/image1.gif',
+        alignment: Alignment.topRight,
+        widthFactor: 0.24,
+        opacity: 0.85,
       );
     case 4:
       return ContentSlide(
@@ -163,6 +184,9 @@ Widget buildSlide(int index) {
             iconColor: Color(0xFF00D4AA),
           ),
         ],
+        sideWidget: const _SlideMediaPanel(
+          assetPath: 'assets/media/image4.PNG',
+        ),
       );
     case 5:
       return ContentSlide(
@@ -203,14 +227,18 @@ Widget buildSlide(int index) {
             iconColor: Color(0xFF00D4AA),
           ),
         ],
+        sideWidget: const _SlideMediaPanel(
+          assetPath: 'assets/media/image5.png',
+        ),
       );
     case 6:
-      return const CodeSlide(
-        key: ValueKey(6),
-        title: 'DAC — Código PlatformIO',
-        subtitle: 'ESP32 • dacWrite() • Rampa e valor fixo',
-        accentColor: Color(0xFF8B5CF6),
-        code: '''#include <Arduino.h>
+      return _withMediaOverlay(
+        child: const CodeSlide(
+          key: ValueKey(6),
+          title: 'DAC — Código PlatformIO',
+          subtitle: 'ESP32 • dacWrite() • Rampa e valor fixo',
+          accentColor: Color(0xFF8B5CF6),
+          code: '''#include <Arduino.h>
 
 #define DAC_PIN 25  // GPIO25 = DAC1
 
@@ -233,14 +261,19 @@ void loop() {
   dacWrite(DAC_PIN, 194);  // 194/255 * 3.3 ≈ 2.5V
   delay(1000);
 }''',
-        explanationPoints: [
-          'dacWrite(pin, valor) — 0 a 255',
-          'GPIO25 = DAC1, GPIO26 = DAC2',
-          'Rampa: varre todos os 256 níveis',
-          '128 → 1.65V (metade da escala)',
-          '194 → ~2.5V (proporcional)',
-          'delayMicroseconds controla velocidade',
-        ],
+          explanationPoints: [
+            'dacWrite(pin, valor) — 0 a 255',
+            'GPIO25 = DAC1, GPIO26 = DAC2',
+            'Rampa: varre todos os 256 níveis',
+            '128 → 1.65V (metade da escala)',
+            '194 → ~2.5V (proporcional)',
+            'delayMicroseconds controla velocidade',
+          ],
+        ),
+        assetPath: 'assets/media/image6.jpeg',
+        alignment: Alignment.topRight,
+        widthFactor: 0.2,
+        opacity: 0.9,
       );
     case 7:
       return const SectionTitleSlide(
@@ -289,6 +322,9 @@ void loop() {
             icon: Icons.settings_rounded,
           ),
         ],
+        sideWidget: const _SlideMediaPanel(
+          assetPath: 'assets/media/image7.png',
+        ),
       );
     case 9:
       return ContentSlide(
@@ -373,14 +409,20 @@ void loop() {
         ],
       );
     case 11:
-      return const SectionTitleSlide(
-        key: ValueKey(11),
-        sectionNumber: '03',
-        title: 'PWM + Filtro RC',
-        subtitle:
-            'Geração de sinal analógico com alta resolução\nFiltro passa-baixa converte PWM em DC',
-        accentColor: Color(0xFF00D4AA),
-        icon: Icons.filter_alt_rounded,
+      return _withMediaOverlay(
+        child: const SectionTitleSlide(
+          key: ValueKey(11),
+          sectionNumber: '03',
+          title: 'PWM + Filtro RC',
+          subtitle:
+              'Geração de sinal analógico com alta resolução\nFiltro passa-baixa converte PWM em DC',
+          accentColor: Color(0xFF00D4AA),
+          icon: Icons.filter_alt_rounded,
+        ),
+        assetPath: 'assets/media/image8.png',
+        alignment: Alignment.centerRight,
+        widthFactor: 0.3,
+        opacity: 0.82,
       );
     case 12:
       return ContentSlide(
@@ -425,6 +467,9 @@ void loop() {
             iconColor: Color(0xFF8B5CF6),
           ),
         ],
+        sideWidget: const _SlideMediaPanel(
+          assetPath: 'assets/media/image9.png',
+        ),
       );
     case 13:
       return ContentSlide(
@@ -1175,5 +1220,65 @@ void loop() {
           style: const TextStyle(color: Colors.white38, fontSize: 22),
         ),
       );
+  }
+}
+
+Widget _withMediaOverlay({
+  required Widget child,
+  required String assetPath,
+  Alignment alignment = Alignment.bottomRight,
+  double widthFactor = 0.24,
+  double opacity = 0.9,
+}) {
+  return LayoutBuilder(
+    builder: (context, box) {
+      final w = box.maxWidth * widthFactor;
+      return Stack(
+        fit: StackFit.expand,
+        children: [
+          child,
+          IgnorePointer(
+            child: Align(
+              alignment: alignment,
+              child: Opacity(
+                opacity: opacity,
+                child: Container(
+                  width: w,
+                  margin: const EdgeInsets.all(24),
+                  decoration: BoxDecoration(
+                    color: const Color(0xFF0B1220).withValues(alpha: 0.35),
+                    borderRadius: BorderRadius.circular(16),
+                    border: Border.all(
+                      color: Colors.white.withValues(alpha: 0.12),
+                    ),
+                  ),
+                  clipBehavior: Clip.antiAlias,
+                  child: Image.asset(assetPath, fit: BoxFit.cover),
+                ),
+              ),
+            ),
+          ),
+        ],
+      );
+    },
+  );
+}
+
+class _SlideMediaPanel extends StatelessWidget {
+  final String assetPath;
+
+  const _SlideMediaPanel({required this.assetPath});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+        color: const Color(0xFF0B1220).withValues(alpha: 0.5),
+        borderRadius: BorderRadius.circular(18),
+        border: Border.all(color: Colors.white.withValues(alpha: 0.14)),
+      ),
+      clipBehavior: Clip.antiAlias,
+      child: Image.asset(assetPath, fit: BoxFit.contain),
+    );
   }
 }
