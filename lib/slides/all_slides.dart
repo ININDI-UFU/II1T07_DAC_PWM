@@ -14,73 +14,67 @@ Widget buildSlide(int index) {
           accentColor: Color(0xFF3B82F6),
         ),
         assetPath: 'assets/media/image1.gif',
-        alignment: Alignment.centerRight,
-        widthFactor: 0.34,
-        opacity: 0.95,
+        alignment: Alignment.topRight,
+        widthFactor: 0.28,
+        opacity: 0.86,
       );
     case 1:
-      return _withMediaOverlay(
-        child: CardsSlide(
-          key: const ValueKey(1),
-          title: 'Agenda',
-          subtitle: 'Conteúdo da aula',
-          accentColor: const Color(0xFF3B82F6),
-          cards: const [
-            InfoCardData(
-              title: '01. Fundamentos',
-              description: 'Sinais digitais vs analógicos na ESP32',
-              icon: Icons.graphic_eq_rounded,
-              color: Color(0xFF3B82F6),
-            ),
-            InfoCardData(
-              title: '02. DAC Nativo',
-              description: 'GPIO25/GPIO26 — 8 bits, conversão direta',
-              icon: Icons.tune_rounded,
-              color: Color(0xFF8B5CF6),
-            ),
-            InfoCardData(
-              title: '03. PWM (LEDC)',
-              description: 'LED Control — 16 canais, até 40 MHz',
-              icon: Icons.waves_rounded,
-              color: Color(0xFFF59E0B),
-            ),
-            InfoCardData(
-              title: '04. PWM + Filtro RC',
-              description: 'Geração de sinal analógico com mais resolução',
-              icon: Icons.filter_alt_rounded,
-              color: Color(0xFF00D4AA),
-            ),
-            InfoCardData(
-              title: '05. PWM Dual (16-bit)',
-              description: 'Técnica para 16 bits de resolução',
-              icon: Icons.precision_manufacturing_rounded,
-              color: Color(0xFF3B82F6),
-            ),
-            InfoCardData(
-              title: '06. Comparação',
-              description: 'DAC vs PWM vs PWM+RC vs DAC externo',
-              icon: Icons.compare_rounded,
-              color: Color(0xFFFF6B6B),
-            ),
-            InfoCardData(
-              title: '07. Código',
-              description: 'Exemplos práticos com PlatformIO',
-              icon: Icons.code_rounded,
-              color: Color(0xFF8B5CF6),
-            ),
-            InfoCardData(
-              title: '08. Aplicações',
-              description: 'Geração de formas de onda e controle',
-              icon: Icons.devices_rounded,
-              color: Color(0xFFF59E0B),
-            ),
-          ],
-          crossAxisCount: 4,
-        ),
-        assetPath: 'assets/media/image2.gif',
-        alignment: Alignment.bottomRight,
-        widthFactor: 0.22,
-        opacity: 0.9,
+      return CardsSlide(
+        key: const ValueKey(1),
+        title: 'Agenda',
+        subtitle: 'Conteúdo da aula',
+        accentColor: const Color(0xFF3B82F6),
+        cards: const [
+          InfoCardData(
+            title: '01. Fundamentos',
+            description: 'Sinais digitais vs analógicos na ESP32',
+            icon: Icons.graphic_eq_rounded,
+            color: Color(0xFF3B82F6),
+          ),
+          InfoCardData(
+            title: '02. DAC Nativo',
+            description: 'GPIO25/GPIO26 — 8 bits, conversão direta',
+            icon: Icons.tune_rounded,
+            color: Color(0xFF8B5CF6),
+          ),
+          InfoCardData(
+            title: '03. PWM (LEDC)',
+            description: 'LED Control — 16 canais, até 40 MHz',
+            icon: Icons.waves_rounded,
+            color: Color(0xFFF59E0B),
+          ),
+          InfoCardData(
+            title: '04. PWM + Filtro RC',
+            description: 'Geração de sinal analógico com mais resolução',
+            icon: Icons.filter_alt_rounded,
+            color: Color(0xFF00D4AA),
+          ),
+          InfoCardData(
+            title: '05. PWM Dual (16-bit)',
+            description: 'Técnica para 16 bits de resolução',
+            icon: Icons.precision_manufacturing_rounded,
+            color: Color(0xFF3B82F6),
+          ),
+          InfoCardData(
+            title: '06. Comparação',
+            description: 'DAC vs PWM vs PWM+RC vs DAC externo',
+            icon: Icons.compare_rounded,
+            color: Color(0xFFFF6B6B),
+          ),
+          InfoCardData(
+            title: '07. Código',
+            description: 'Exemplos práticos com PlatformIO',
+            icon: Icons.code_rounded,
+            color: Color(0xFF8B5CF6),
+          ),
+          InfoCardData(
+            title: '08. Aplicações',
+            description: 'Geração de formas de onda e controle',
+            icon: Icons.devices_rounded,
+            color: Color(0xFFF59E0B),
+          ),
+        ],
+        crossAxisCount: 4,
       );
     case 2:
       return ContentSlide(
@@ -247,27 +241,25 @@ void setup() {
 }
 
 void loop() {
-  // Gera rampa de 0 a 3.3V
-  for (int i = 0; i < 256; i++) {
-    dacWrite(DAC_PIN, i);
-    delayMicroseconds(100);
+  const uint32_t now = millis();
+  static uint32_t t1 = 0;
+  static uint8_t level = 0;
+
+  const uint32_t TIME_DELAY_MS = 10;
+  if ((now - t1) >= TIME_DELAY_MS) {
+    t1 = now;
+    dacWrite(DAC_PIN, level);
+    level++;
   }
-
-  // Valor fixo: 1.65V (metade de 3.3V)
-  dacWrite(DAC_PIN, 128);
-  delay(1000);
-
-  // Valor fixo: 2.5V
-  dacWrite(DAC_PIN, 194);  // 194/255 * 3.3 ≈ 2.5V
-  delay(1000);
 }''',
           explanationPoints: [
             'dacWrite(pin, valor) — 0 a 255',
             'GPIO25 = DAC1, GPIO26 = DAC2',
-            'Rampa: varre todos os 256 níveis',
-            '128 → 1.65V (metade da escala)',
-            '194 → ~2.5V (proporcional)',
-            'delayMicroseconds controla velocidade',
+            'Loop não bloqueante com millis()',
+            'Controle temporal via (now - t1) >= TIME_DELAY_MS',
+            'Rampa automática: level incrementa de 0 a 255',
+            'Sem usar delay() ou delayMicroseconds()',
+            'CPU livre para tarefas paralelas',
           ],
         ),
         assetPath: 'assets/media/image6.jpeg',
@@ -391,13 +383,17 @@ void setup() {
 }
 
 void loop() {
-  // Rampa de 0% a 100%
-  int maxDuty = (1 << RES_BITS) - 1;
-  for (int d = 0; d <= maxDuty; d += 10) {
-    ledcWrite(CHANNEL, d);
-    delayMicroseconds(50);
+  const uint32_t now = millis();
+  static uint32_t t1 = 0;
+  static int duty = 0;
+
+  const uint32_t TIME_DELAY_MS = 2;
+  if ((now - t1) >= TIME_DELAY_MS) {
+    t1 = now;
+    const int maxDuty = (1 << RES_BITS) - 1;
+    ledcWrite(CHANNEL, duty);
+    duty = (duty + 32) % (maxDuty + 1);
   }
-  delay(500);
 }''',
         explanationPoints: [
           'ledcSetup(canal, freq, bits) — configura',
@@ -405,7 +401,8 @@ void loop() {
           'ledcWrite(canal, duty) — define duty cycle',
           '13 bits → 8192 níveis (vs 256 do DAC)',
           'Frequência: 5 kHz × 2^13 = 40.96 MHz ≤ 80 MHz ✓',
-          'Hardware LEDC gera o sinal automaticamente',
+          'Arquitetura não bloqueante com millis()',
+          'Sem usar delay() ou delayMicroseconds()',
         ],
       );
     case 11:
@@ -539,12 +536,19 @@ void setup() {
 }
 
 void loop() {
-  // Senoide 50 Hz
-  float seno = sin(2 * PI * 50.0 * t);
-  int duty = (int)((seno + 1.0) / 2.0 * maxDuty);
-  ledcWrite(CHANNEL, duty);
-  t += 0.00005; // Ts = 50 us
-  delayMicroseconds(50);
+  const uint32_t now = millis();
+  static uint32_t t1 = 0;
+
+  const uint32_t TIME_DELAY_MS = 1;
+  if ((now - t1) >= TIME_DELAY_MS) {
+    t1 = now;
+    // Senoide 50 Hz com passo temporal fixo
+    float seno = sin(2 * PI * 50.0 * t);
+    int duty = (int)((seno + 1.0) / 2.0 * maxDuty);
+    ledcWrite(CHANNEL, duty);
+    t += 0.001;
+    if (t >= 1.0) t = 0.0;
+  }
 }''',
         explanationPoints: [
           '20 kHz PWM → fc RC ≈ 2 kHz',
@@ -552,7 +556,8 @@ void loop() {
           'Normaliza [-1,1] para [0, maxDuty]',
           'Filtro RC na saída suaviza o sinal',
           'Resultado: senoide analógica de 50 Hz',
-          'Resolução: 10 bits = 1024 níveis',
+          'Loop não bloqueante com millis()',
+          'Sem usar delay() ou delayMicroseconds()',
         ],
       );
     case 15:
@@ -1212,6 +1217,14 @@ void loop() {
           ),
         ],
       );
+    case 32:
+      return const _MediaFocusSlide(
+        key: ValueKey(32),
+        title: 'Visualização PWM (GIF)',
+        subtitle:
+            'Tela dedicada para observar os diferentes duty cycles sem sobreposição',
+        assetPath: 'assets/media/image2.gif',
+      );
     default:
       return Center(
         key: ValueKey(index),
@@ -1279,6 +1292,74 @@ class _SlideMediaPanel extends StatelessWidget {
       ),
       clipBehavior: Clip.antiAlias,
       child: Image.asset(assetPath, fit: BoxFit.contain),
+    );
+  }
+}
+
+class _MediaFocusSlide extends StatelessWidget {
+  final String title;
+  final String subtitle;
+  final String assetPath;
+
+  const _MediaFocusSlide({
+    super.key,
+    required this.title,
+    required this.subtitle,
+    required this.assetPath,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return SlideBackground(
+      child: LayoutBuilder(
+        builder: (context, box) {
+          final s = (box.maxWidth / 960).clamp(0.25, 2.5);
+          return Padding(
+            padding: EdgeInsets.fromLTRB(36 * s, 28 * s, 36 * s, 22 * s),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  title,
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 32 * s,
+                    fontWeight: FontWeight.w700,
+                    letterSpacing: -0.3,
+                  ),
+                ),
+                SizedBox(height: 6 * s),
+                Text(
+                  subtitle,
+                  style: TextStyle(
+                    color: const Color(0xFF7B8EA2),
+                    fontSize: 13 * s,
+                    height: 1.4,
+                  ),
+                ),
+                SizedBox(height: 18 * s),
+                Expanded(
+                  child: Container(
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                      color: const Color(0xFF0B1220).withValues(alpha: 0.5),
+                      borderRadius: BorderRadius.circular(18),
+                      border: Border.all(
+                        color: Colors.white.withValues(alpha: 0.14),
+                      ),
+                    ),
+                    clipBehavior: Clip.antiAlias,
+                    child: Padding(
+                      padding: EdgeInsets.all(14 * s),
+                      child: Image.asset(assetPath, fit: BoxFit.contain),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          );
+        },
+      ),
     );
   }
 }

@@ -6,7 +6,7 @@ import '../widgets/bottom_nav.dart';
 import '../widgets/fullscreen_button.dart';
 import '../slides/all_slides.dart';
 
-const int kTotalSlides = 32;
+const int kTotalSlides = 33;
 
 const _kAccents = [
   Color(0xFF4FC3F7), // cyan
@@ -252,7 +252,7 @@ class _PresentationScreenState extends State<PresentationScreen>
   }
 
   Widget _buildGlows() {
-    final pos1 = _kGlowPositions[_slide];
+    final pos1 = _kGlowPositions[_slide % _kGlowPositions.length];
     final pos2 = _kGlowPositions[(_slide + 4) % _kGlowPositions.length];
     return AnimatedBuilder(
       animation: _glowCtrl,
