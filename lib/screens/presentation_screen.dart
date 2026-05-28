@@ -6,7 +6,7 @@ import '../widgets/bottom_nav.dart';
 import '../widgets/fullscreen_button.dart';
 import '../slides/all_slides.dart';
 
-const int kTotalSlides = 33;
+const int kTotalSlides = 34;
 
 const _kAccents = [
   Color(0xFF4FC3F7), // cyan

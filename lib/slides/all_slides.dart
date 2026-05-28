@@ -1,22 +1,32 @@
 import 'package:flutter/material.dart';
 import '../widgets/slide_template.dart';
+import '../widgets/animated_gif.dart';
 
 Widget buildSlide(int index) {
+  if (index == 2) {
+    return _buildOriginalSlide(32);
+  }
+
+  if (index == 3) {
+    return const _ImageCardSlide(
+      key: ValueKey(3),
+      assetPath: 'assets/media/image1.gif',
+    );
+  }
+
+  return _buildOriginalSlide(index >= 4 ? index - 2 : index);
+}
+
+Widget _buildOriginalSlide(int index) {
   switch (index) {
     case 0:
-      return _withMediaOverlay(
-        child: const TitleSlide(
-          key: ValueKey(0),
-          title: 'DAC & PWM na ESP32',
-          subtitle:
-              'Geração de Sinais Analógicos\n\nConversor Digital-Analógico, PWM com LEDC e filtros RC\nAula 13 • Sistemas Embarcados',
-          chip: 'SINAIS ANALÓGICOS',
-          accentColor: Color(0xFF3B82F6),
-        ),
-        assetPath: 'assets/media/image1.gif',
-        alignment: Alignment.topRight,
-        widthFactor: 0.28,
-        opacity: 0.86,
+      return const TitleSlide(
+        key: ValueKey(0),
+        title: 'DAC & PWM na ESP32',
+        subtitle:
+            'Geração de Sinais Analógicos\n\nConversor Digital-Analógico, PWM com LEDC e filtros RC\nAula 13 • Sistemas Embarcados',
+        chip: 'SINAIS ANALÓGICOS',
+        accentColor: Color(0xFF3B82F6),
       );
     case 1:
       return CardsSlide(
@@ -120,20 +130,14 @@ Widget buildSlide(int index) {
         ),
       );
     case 3:
-      return _withMediaOverlay(
-        child: const SectionTitleSlide(
-          key: ValueKey(3),
-          sectionNumber: '01',
-          title: 'DAC Nativo da ESP32',
-          subtitle:
-              'Conversão direta Digital → Analógico\n8 bits • 2 canais • GPIO25 / GPIO26',
-          accentColor: Color(0xFF8B5CF6),
-          icon: Icons.tune_rounded,
-        ),
-        assetPath: 'assets/media/image1.gif',
-        alignment: Alignment.topRight,
-        widthFactor: 0.24,
-        opacity: 0.85,
+      return const SectionTitleSlide(
+        key: ValueKey(3),
+        sectionNumber: '01',
+        title: 'DAC Nativo da ESP32',
+        subtitle:
+            'Conversão direta Digital → Analógico\n8 bits • 2 canais • GPIO25 / GPIO26',
+        accentColor: Color(0xFF8B5CF6),
+        icon: Icons.tune_rounded,
       );
     case 4:
       return ContentSlide(
@@ -1296,6 +1300,46 @@ class _SlideMediaPanel extends StatelessWidget {
   }
 }
 
+class _ImageCardSlide extends StatelessWidget {
+  final String assetPath;
+
+  const _ImageCardSlide({super.key, required this.assetPath});
+
+  @override
+  Widget build(BuildContext context) {
+    return SlideBackground(
+      child: LayoutBuilder(
+        builder: (context, box) {
+          final s = (box.maxWidth / 960).clamp(0.25, 2.5);
+          return Center(
+            child: Container(
+              width: box.maxWidth * 0.74,
+              height: box.maxHeight * 0.74,
+              padding: EdgeInsets.all(24 * s),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(18),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withValues(alpha: 0.28),
+                    blurRadius: 28,
+                    offset: const Offset(0, 18),
+                  ),
+                ],
+              ),
+              clipBehavior: Clip.antiAlias,
+              child: AnimatedGifAsset(
+                assetPath: assetPath,
+                fit: BoxFit.contain,
+              ),
+            ),
+          );
+        },
+      ),
+    );
+  }
+}
+
 class _MediaFocusSlide extends StatelessWidget {
   final String title;
   final String subtitle;
@@ -1351,7 +1395,10 @@ class _MediaFocusSlide extends StatelessWidget {
                     clipBehavior: Clip.antiAlias,
                     child: Padding(
                       padding: EdgeInsets.all(14 * s),
-                      child: Image.asset(assetPath, fit: BoxFit.contain),
+                      child: AnimatedGifAsset(
+                        assetPath: assetPath,
+                        fit: BoxFit.contain,
+                      ),
                     ),
                   ),
                 ),
